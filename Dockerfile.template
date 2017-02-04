@@ -2,10 +2,10 @@
 #
 # LICENSE:    MIT
 #
-# @project    piball
-# @package    run
+# @project    reflector
 # @author     André Lademann <vergissberlin@googlemail.com>
 # @license    http://opensource.org/licenses/MIT
+
 FROM resin/%%RESIN_MACHINE_NAME%%-node
 LABEL maintainer "André Lademann <vergissberlin@googlemail.com>"
 
@@ -91,7 +91,6 @@ RUN echo"\ndisplay_rotate=3\navoid_warnings=1\n" /boot/config.txt
 
 # ---- Start ---------------------------------------
 # Auto Starting MagicMirror:
-# Install PM2 using NPM:
 RUN npm install -g pm2
 
 # ---- Settings ----------------------------------------------------------------
