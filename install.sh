@@ -35,6 +35,8 @@ echo "\n# Disable power saving\noptions 8192cu rtw_power_mgnt=0 rtw_enusbss=1 rt
 # Rotating the screen and hide Rainbow colored cube:
 echo"\ndisplay_rotate=3\navoid_warnings=1\n" >> /boot/config.txt
 
+mkdir -p sudo nano /etc/xdg/lxsession/LXDE/
+echo "\n@xset s noblank\n@xset s off\n@xset -dpms" >>  /etc/xdg/lxsession/LXDE/autostart
 
 # ---- MagicMirror ---------------------------------------
 
