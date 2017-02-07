@@ -1,14 +1,12 @@
-# piball
+#!/bin/bash
+
+# reflector
 #
 # LICENSE:    MIT
 #
 # @project    reflector
 # @author     André Lademann <vergissberlin@googlemail.com>
 # @license    http://opensource.org/licenses/MIT
-
-FROM resin/%%RESIN_MACHINE_NAME%%-node
-LABEL maintainer "André Lademann <vergissberlin@googlemail.com>"
-
 
 # ---- System ---------------------------------------
 apt-get update
@@ -35,7 +33,7 @@ echo ""
 echo "\n# Disable power saving\noptions 8192cu rtw_power_mgnt=0 rtw_enusbss=1 rtw_ips_mode=1" >> /etc/modprobe.d/8192cu.conf
 
 # Rotating the screen and hide Rainbow colored cube:
-RUN echo"\ndisplay_rotate=3\navoid_warnings=1\n" /boot/config.txt
+echo"\ndisplay_rotate=3\navoid_warnings=1\n" >> /boot/config.txt
 
 
 # ---- MagicMirror ---------------------------------------
