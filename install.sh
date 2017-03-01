@@ -74,6 +74,12 @@ echo '\
   export SYSTEM_TIMEZONE="Europe/Berlin"\n\
   export TERM=xterm\n' >> .bashrc
 
+# Add github to the list of known_hosts
+if [[ ! -d /root/.ssh ]]; then
+  echo "Add github.com to known_hosts"
+  mkdir /root/.ssh && touch /root/.ssh/known_hosts && ssh-keyscan -H github.com >> /root/.ssh/known_hosts && chmod 600 /root/.ssh/known_hosts
+fi
+
 # ---- CronJobs ---------------------------------------
 
 # Install cron jobs
