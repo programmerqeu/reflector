@@ -7,27 +7,49 @@
 # @project    reflector
 # @author     André Lademann <vergissberlin@googlemail.com>
 # @license    http://opensource.org/licenses/MIT
+# @link       https://netresearch.atlassian.net/wiki/display/IT/Smart+mirror
+
 
 # ---- System ---------------------------------------
+
 apt-get update
 apt-get upgrade
 
-
 # ---- Dependencies ---------------------------------------
 
-# Install Xserver, LXDE-gui and lightdm
-apt-get install xinit xserver-xorg x11-xserver-utils
-apt-get install lxde-core
-apt-get install lightdm
-apt-get install git
-apt-get install libxss1 libnss3
+apt-get install \
+  apt-utils \
+  curl \
+  debconf-utils \
+  festival \
+  festival-doc \
+  festival-freebsoft-utils \
+  firmware-ralink \
+  git-core \
+  lxde-core \
+  libnss3 \
+  libsox-fmt-all \
+  libxss1 \
+  lightdm \
+  mc \
+  nodered \
+  perl \
+  python-rpi.gpio \
+  sox \
+  unclutter \
+  vim \
+  wget \
+  wireless-tools \
+  x11-xserver-utils \
+  xinit \
+  xserver-xorg
 
-# Autohiding the Mouse Cursor with unclutter:
-apt-get install unclutter
 
 # Node dependencies
-npm install -g pm2
-
+npm install -g \
+  pm2 \
+  pm2-gui \
+  firebase
 
 # ---- Configuration ---------------------------------------
 
@@ -37,27 +59,50 @@ echo "\n# Disable power saving\noptions 8192cu rtw_power_mgnt=0 rtw_enusbss=1 rt
 echo"\ndisplay_rotate=3\navoid_warnings=1\n" >> /boot/config.txt
 
 # Disable screen saver
-mkdir -p sudo nano /etc/xdg/lxsession/LXDE/
-echo "\n@xset s noblank\n@xset s off\n@xset -dpms" >>  /etc/xdg/lxsession/LXDE/autostart
-echo "xserver-command=X -s 0 -dpms" >> /etc/lightdm/lightdm.conf
+sudo mkdir -p /etc/xdg/lxsession/LXDE/
+sudo echo "\n@xset s noblank\n@xset s off\n@xset -dpms" >> /etc/xdg/lxsession/LXDE/autostart
+sudo echo "xserver-command=X -s 0 -dpms" >> /etc/lightdm/lightdm.conf
 
+# vim configuration
+echo "syntax on" > ~/.vimrc
 
-# ---- MagicMirror ---------------------------------------
+# Enviroment variables
+echo '\
+  export INITSYSTEM="on"\n\
+  export JOBS="MAX"\n\
+  export NODE_ENV="production"\n\
+  export SYSTEM_TIMEZONE="Europe/Berlin"\n\
+  export TERM=xterm\n' >> .bashrc
+
+# ---- CronJobs ---------------------------------------
+
+# Install cron jobs
+crontab boot/cronjobs.txt
+
+# ---- MagicMirror ------------------------------------
 
 # Get and install MagicMirror with the Automatic Installer:
 curl -sL https://raw.githubusercontent.com/MichMich/MagicMirror/master/installers/raspberry.sh | bash cd ~/MagicMirror
 
-# Duplicate config/config.js.sample to config/config.js.
-cp ~/MagicMirror/config/config.js.sample ~/MagicMirror/config/config.js
+# Link the config file
+ln -s ~/MagicMirror/config.js ~/reflectorMagicMirror/config/config.js
 
 # Install the app:
 cd ~/MagicMirror && npm install
 
-echo "DISPLAY=:0 npm start" > ~/MagicMirror/mm.sh
-chmod +x ~/MagicMirror/mm.sh
+echo "DISPLAY=:0 npm start" >> ~/MagicMirror/reflector.sh
+chmod +x ~/MagicMirror/reflector.sh
 
+
+# ---- MagicMirror Modules ------------------------
+# @link https://github.com/MichMich/MagicMirror/wiki/MagicMirror%C2%B2-Modules
+repositories:=$(getColumn 1 '${ROOT}/modules.csv')
+
+cd ~/MagicMirror/modules/
+for value in ${repositories[@]}; do
+    git clone $value
+done
 
 # ---- Start ---------------------------------------
-# Auto Starting MagicMirror:
-pm2 start ~/MagicMirro/mm.sh
+pm2 start ~/MagicMirror/reflector.sh
 pm2 save

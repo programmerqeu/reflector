@@ -1,0 +1,1 @@
+*/15 * * * * bash ~/reflector/update.sh

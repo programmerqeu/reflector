@@ -1,7 +1,12 @@
-/* Magic Mirror Config Sample
+/**
+ * reflector
  *
- * By Michael Teeuw http://michaelteeuw.nl
- * MIT Licensed.
+ * LICENSE:    MIT
+ *
+ * @project    reflector
+ * @author     André Lademann <vergissberlin@googlemail.com>
+ * @license    http://opensource.org/licenses/MIT
+ * @link       https://netresearch.atlassian.net/wiki/display/IT/Smart+mirror
  */
 
 var config = {
@@ -25,36 +30,36 @@ var config = {
         },
         {
             module: 'calendar',
-            header: 'US Holidays',
+            header: 'Kalender',
             position: 'top_left',
             config: {
                 calendars: [{
-                    symbol: 'calendar-check-o ',
-                    url: 'webcal://www.calendarlabs.com/templates/ical/Germany-Holidays.ics'
+                    symbol: 'calendar-check-o',
+                    url: 'http://ical.mac.com/ical/German32Holidays.ics'
                 }]
             }
         },
-        {
-            module: 'compliments',
-            position: 'lower_third'
-        },
+        //		{
+        //			module: 'compliments',
+        //			position: 'lower_third'
+        //		},
         {
             module: 'currentweather',
-            position: 'top_left',
+            position: 'top_right',
             config: {
-                location: 'Leipzig, DE',
+                location: 'Leipzig',
                 locationID: '2879139', //ID from http://www.openweathermap.org
-                appid: '7e8a87121610991cdb6b628d25907fa5'
+                appid: '1cf3eb2d811f7690890d3f7648d8aeb1'
             }
         },
         {
             module: 'weatherforecast',
-            position: 'top_left',
-            header: 'Weather Forecast',
+            position: 'top_right',
+            header: 'Wettervorhersage',
             config: {
-                location: 'Leipzig, DE',
+                location: 'Leipzig',
                 locationID: '2879139', //ID from http://www.openweathermap.org
-                appid: '7e8a87121610991cdb6b628d25907fa5'
+                appid: '1cf3eb2d811f7690890d3f7648d8aeb1'
             }
         },
         {
@@ -62,13 +67,23 @@ var config = {
             position: 'bottom_bar',
             config: {
                 feeds: [{
-                    title: "New York Times",
-                    url: "http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+                    title: "Netresearch",
+                    url: "https://www.netresearch.de/blog/rss.xml"
                 }],
                 showSourceTitle: true,
                 showPublishDate: true
             }
         },
+
+        {
+            module: 'mmm-systemtemperature',
+            position: 'bottom_left', // This can be any of the regions.
+            classes: 'small dimmed', // Add your own styling. Optional.
+            config: {
+                // See 'Configuration options' for more information.
+                prependString: 'Systemtemperatur: '
+            }
+        }
     ]
 
 };
